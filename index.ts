@@ -1,7 +1,9 @@
-import { serve } from "https://deno.land/std@0.91.0/http/server.ts";
-const s = serve({ port: 8000 });
-console.log("listening on :8000");
-for await (const req of s) {
-  req.respond({ body: "SETL rules!\n" });
-}
+addEventListener("fetch", async (event) => {
+  const quote = fetch("https://quotes.rest/qod?language=en").then(r => r.json());
+  const response = new Response(quote.contents.quotes[0].quote, {
+    headers: { "content-type": "text/plain" },
+  });
+  event.respondWith(response);
+});
+
 
